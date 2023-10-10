@@ -1,6 +1,7 @@
 import 'package:fake_shop/app/features/cart/controller/cart_controller.dart';
 import 'package:fake_shop/app/features/cart/views/add_to_cart_screen.dart';
 import 'package:fake_shop/app/features/home/controller/product_controller.dart';
+import 'package:fake_shop/app/product-details/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,62 +44,69 @@ class HomeScreen extends StatelessWidget {
                       itemCount: productController.productList.length,
                       itemBuilder: (context, index) {
                         final product = productController.productList;
-                        return SizedBox(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 100.h,
-                                child: Image.network(
-                                    product[index].image.toString()),
-                              ),
-                              Text(
-                                product[index].title.toString(),
-                                style: GoogleFonts.aBeeZee(fontSize: 14.sp),
-                                maxLines: 2,
-                              ),
-                              Text("${product[index].price}\$",
-                                  style: GoogleFonts.aBeeZee(fontSize: 12.sp)),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  RatingBarIndicator(
-                                    itemSize: 12.h,
-                                    rating: product[index].rating!.rate!,
-                                    itemBuilder: (context, index) {
-                                      return const Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      );
-                                    },
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Text(
-                                      "(${product[index].rating!.rate.toString()})"),
-                                ],
-                              ),
-                              SizedBox(height: 10.h),
-                              InkWell(
-                                borderRadius: BorderRadius.circular(50.r),
-                                onTap: () {
-                                  cartController.addItem(product[index]);
-                                },
-                                child: Ink(
-                                  height: 20.h,
-                                  width: 50.w,
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius:
-                                          BorderRadius.circular(50.r)),
-                                  child: Center(
-                                      child: Text(
-                                    "Add",
-                                    style: GoogleFonts.aBeeZee(
-                                        fontSize: 12.sp, color: Colors.white),
-                                  )),
+                        return InkWell(
+                          onTap: () {
+                            Get.to(
+                                () => ProductDetails(product: product[index]));
+                          },
+                          child: SizedBox(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 100.h,
+                                  child: Image.network(
+                                      product[index].image.toString()),
                                 ),
-                              )
-                            ],
+                                Text(
+                                  product[index].title.toString(),
+                                  style: GoogleFonts.aBeeZee(fontSize: 14.sp),
+                                  maxLines: 2,
+                                ),
+                                Text("${product[index].price}\$",
+                                    style:
+                                        GoogleFonts.aBeeZee(fontSize: 12.sp)),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    RatingBarIndicator(
+                                      itemSize: 12.h,
+                                      rating: product[index].rating!.rate!,
+                                      itemBuilder: (context, index) {
+                                        return const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Text(
+                                        "(${product[index].rating!.rate.toString()})"),
+                                  ],
+                                ),
+                                SizedBox(height: 10.h),
+                                InkWell(
+                                  borderRadius: BorderRadius.circular(50.r),
+                                  onTap: () {
+                                    cartController.addItem(product[index]);
+                                  },
+                                  child: Ink(
+                                    height: 20.h,
+                                    width: 50.w,
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius:
+                                            BorderRadius.circular(50.r)),
+                                    child: Center(
+                                        child: Text(
+                                      "Add",
+                                      style: GoogleFonts.aBeeZee(
+                                          fontSize: 12.sp, color: Colors.white),
+                                    )),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         );
                       }),
