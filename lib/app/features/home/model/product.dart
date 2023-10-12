@@ -11,32 +11,43 @@ String productModelToJson(List<ProductModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ProductModel {
-  int? id;
-  String? title;
-  double? price;
-  String? description;
-  Category? category;
-  String? image;
-  Rating? rating;
+  final int? id;
+  final String? title;
+  final int? price;
+  final String? description;
+  final List<String>? images;
+  final DateTime? creationAt;
+  final DateTime? updatedAt;
+  final Category? category;
 
   ProductModel({
     this.id,
     this.title,
     this.price,
     this.description,
+    this.images,
+    this.creationAt,
+    this.updatedAt,
     this.category,
-    this.image,
-    this.rating,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
         title: json["title"],
-        price: json["price"]?.toDouble(),
+        price: json["price"],
         description: json["description"],
-        category: categoryValues.map[json["category"]]!,
-        image: json["image"],
-        rating: json["rating"] == null ? null : Rating.fromJson(json["rating"]),
+        images: json["images"] == null
+            ? []
+            : List<String>.from(json["images"]!.map((x) => x)),
+        creationAt: json["creationAt"] == null
+            ? null
+            : DateTime.parse(json["creationAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
+        category: json["category"] == null
+            ? null
+            : Category.fromJson(json["category"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -44,40 +55,59 @@ class ProductModel {
         "title": title,
         "price": price,
         "description": description,
-        "category": categoryValues.reverse[category],
-        "image": image,
-        "rating": rating?.toJson(),
+        "images":
+            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "creationAt": creationAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
+        "category": category?.toJson(),
       };
 }
 
-enum Category { ELECTRONICS, JEWELERY, MEN_S_CLOTHING, WOMEN_S_CLOTHING }
+class Category {
+  final int? id;
+  final Name? name;
+  final String? image;
+  final DateTime? creationAt;
+  final DateTime? updatedAt;
 
-final categoryValues = EnumValues({
-  "electronics": Category.ELECTRONICS,
-  "jewelery": Category.JEWELERY,
-  "men's clothing": Category.MEN_S_CLOTHING,
-  "women's clothing": Category.WOMEN_S_CLOTHING
-});
-
-class Rating {
-  double? rate;
-  int? count;
-
-  Rating({
-    this.rate,
-    this.count,
+  Category({
+    this.id,
+    this.name,
+    this.image,
+    this.creationAt,
+    this.updatedAt,
   });
 
-  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-        rate: json["rate"]?.toDouble(),
-        count: json["count"],
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+        id: json["id"],
+        name: nameValues.map[json["name"]]!,
+        image: json["image"],
+        creationAt: json["creationAt"] == null
+            ? null
+            : DateTime.parse(json["creationAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "rate": rate,
-        "count": count,
+        "id": id,
+        "name": nameValues.reverse[name],
+        "image": image,
+        "creationAt": creationAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
       };
 }
+
+enum Name { CLOTHES, ELECTRONICS, FURNITURE, OTHERS, SHOES }
+
+final nameValues = EnumValues({
+  "Clothes": Name.CLOTHES,
+  "Electronics": Name.ELECTRONICS,
+  "Furniture": Name.FURNITURE,
+  "Others": Name.OTHERS,
+  "Shoes": Name.SHOES
+});
 
 class EnumValues<T> {
   Map<String, T> map;

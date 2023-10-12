@@ -17,60 +17,63 @@ class AddToCartScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: cartController.items.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: CircleAvatar(
-                  child: Image.network(cartController
-                      .items[index].productModel.image
-                      .toString()),
-                ),
-                title: Text(
-                  truncateText(
-                      cartController.items[index].productModel.title!, 2),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        cartController
-                            .decrementItem(cartController.items[index]);
-                      },
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red,
+          Obx(
+            () => ListView.builder(
+              shrinkWrap: true,
+              itemCount: cartController.items.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: CircleAvatar(
+                    child: Image.network(
+                        cartController.items[index].productModel.images![1]),
+                  ),
+                  title: Text(
+                    truncateText(
+                        cartController.items[index].productModel.title!, 2),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          cartController
+                              .decrementItem(cartController.items[index]);
+                        },
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+                          child: Icon(Icons.remove,
+                              size: 20.h, color: Colors.white),
                         ),
-                        child:
-                            Icon(Icons.remove, size: 20.h, color: Colors.white),
                       ),
-                    ),
-                    SizedBox(width: 4.w),
-                    Obx(() {
-                      return Text(
-                          cartController.items[index].quantity.toString(),
-                          style: GoogleFonts.roboto(fontSize: 20.sp));
-                    }),
-                    SizedBox(width: 4.w),
-                    InkWell(
-                      onTap: () {
-                        cartController
-                            .incrementItem(cartController.items[index]);
-                      },
-                      child: Container(
-                        height: 20.h,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.red),
-                        child: Icon(Icons.add, size: 20.h, color: Colors.white),
+                      SizedBox(width: 4.w),
+                      Obx(
+                        () => Text(
+                            cartController.items[index].quantity.value
+                                .toString(),
+                            style: GoogleFonts.roboto(fontSize: 20.sp)),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
+                      SizedBox(width: 4.w),
+                      InkWell(
+                        onTap: () {
+                          cartController
+                              .incrementItem(cartController.items[index]);
+                        },
+                        child: Container(
+                          height: 20.h,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.red),
+                          child:
+                              Icon(Icons.add, size: 20.h, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
           const Spacer(),
           Container(
@@ -80,13 +83,15 @@ class AddToCartScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Total Price = ${cartController.totalPrice} Tk",
-                  style: GoogleFonts.roboto(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600),
-                )
+                Obx(() {
+                  return Text(
+                    "Total Price = ${cartController.totalAmount} Tk",
+                    style: GoogleFonts.roboto(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600),
+                  );
+                })
               ],
             ),
           ),

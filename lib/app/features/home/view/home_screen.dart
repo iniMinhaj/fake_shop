@@ -55,8 +55,8 @@ class HomeScreen extends StatelessWidget {
                               children: [
                                 SizedBox(
                                   height: 100.h,
-                                  child: Image.network(
-                                      product[index].image.toString()),
+                                  child:
+                                      Image.network(product[index].images![1]),
                                 ),
                                 Text(
                                   product[index].title.toString(),
@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                                   children: [
                                     RatingBarIndicator(
                                       itemSize: 12.h,
-                                      rating: product[index].rating!.rate!,
+                                      rating: 5,
                                       itemBuilder: (context, index) {
                                         return const Icon(
                                           Icons.star,
@@ -80,8 +80,11 @@ class HomeScreen extends StatelessWidget {
                                       },
                                     ),
                                     SizedBox(width: 10.w),
-                                    Text(
-                                        "(${product[index].rating!.rate.toString()})"),
+                                    const Text("5"
+
+                                        // "(${product[index].rating!.rate.toString()})"
+
+                                        ),
                                   ],
                                 ),
                                 SizedBox(height: 10.h),
@@ -119,7 +122,7 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: Obx(() {
         return FloatingActionButton.extended(
           label: Text(
-            "X ${cartController.items.length}",
+            "X ${cartController.totalItems}",
             style: GoogleFonts.aBeeZee(fontSize: 24.sp, color: Colors.white),
           ),
           backgroundColor: Colors.red,

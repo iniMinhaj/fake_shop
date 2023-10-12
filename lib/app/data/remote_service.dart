@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../features/home/model/product.dart';
 
 class RemoteServices {
-  final String productUrl = "https://fakestoreapi.com/products";
+  final String productUrl = "https://api.escuelajs.co/api/v1/products";
 
   // Approch - 1 (Preferable)
   // without declaring extra "ProductList = <productModel>[]"
